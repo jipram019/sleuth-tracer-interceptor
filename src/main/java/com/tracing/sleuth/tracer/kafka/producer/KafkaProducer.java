@@ -2,28 +2,26 @@ package com.tracing.sleuth.tracer.kafka.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tracing.sleuth.tracer.utils.InterceptorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.OrderComparator;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.SettableListenableFuture;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class KafkaProducer implements InitializingBean, ApplicationContextAware {
     private final ObjectMapper objectMapper;
     private final KafkaTemplate<String,String> kafkaTemplate;
     private ApplicationContext applicationContext;
-    private List<KafkaProducerInterceptor> kafkaProducerInterceptors;
+    private List<ProducerInterceptor> kafkaProducerInterceptors;
 
     public KafkaProducer(ObjectMapper objectMapper, KafkaTemplate<String, String> kafkaTemplate) {
         this.objectMapper = objectMapper;
@@ -32,7 +30,7 @@ public class KafkaProducer implements InitializingBean, ApplicationContextAware 
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        kafkaProducerInterceptors = getKafkaProducerInterceptors(applicationContext);
+        kafkaProducerInterceptors = InterceptorUtil.getKafkaProducerInterceptors(applicationContext);
     }
 
     @Override
@@ -64,19 +62,8 @@ public class KafkaProducer implements InitializingBean, ApplicationContextAware 
         }
     }
 
-    private List<KafkaProducerInterceptor> getKafkaProducerInterceptors(ApplicationContext applicationContext){
-        List<KafkaProducerInterceptor> interceptors = null;
-        Map<String, KafkaProducerInterceptor> beans = applicationContext.getBeansOfType(KafkaProducerInterceptor.class);
-        if(beans != null && !beans.isEmpty()){
-            interceptors = new ArrayList<>(beans.values());
-        }
-
-        OrderComparator.sort(interceptors);
-        return interceptors;
-    }
-
     private void fireBeforeSend(ProducerEvent event){
-        for(KafkaProducerInterceptor interceptor : kafkaProducerInterceptors){
+        for(ProducerInterceptor interceptor : kafkaProducerInterceptors){
             try {
                 interceptor.beforeSend(event);
             } catch (Throwable throwable) {
