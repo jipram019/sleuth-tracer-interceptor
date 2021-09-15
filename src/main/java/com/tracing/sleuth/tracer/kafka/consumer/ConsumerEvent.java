@@ -14,7 +14,7 @@ public class ConsumerEvent {
 
     public String key;
 
-    public Object value;
+    public String value;
 
     public Long timestamp;
 }

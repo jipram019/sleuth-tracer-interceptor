@@ -38,7 +38,7 @@ public class ListenerInterceptor<unchecked> implements MethodInterceptor, Initia
             ConsumerEvent event = toConsumerEvent(getConsumerRecords(methodInvocation));
             try {
                 if(InterceptorUtil.fireBeforeConsume(event, kafkaConsumerInterceptors)){
-                    return null;
+                    return null; // Cancel process
                 } else{
                     Object response = methodInvocation.proceed();
                     InterceptorUtil.fireAfterSuccessConsume(event, kafkaConsumerInterceptors);
