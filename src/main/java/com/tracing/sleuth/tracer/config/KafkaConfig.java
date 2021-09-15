@@ -1,4 +1,4 @@
-package com.tracing.sleuth.tracer.kafka.config;
+package com.tracing.sleuth.tracer.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracing.sleuth.tracer.kafka.aop.ListenerAdvisor;

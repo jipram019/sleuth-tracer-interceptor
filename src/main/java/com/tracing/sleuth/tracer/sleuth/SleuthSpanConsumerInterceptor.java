@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracing.sleuth.tracer.kafka.consumer.ConsumerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.sleuth.Tracer;
-import org.springframework.cloud.sleuth.autoconfig.brave.SleuthProperties;
+import org.springframework.cloud.sleuth.autoconfig.SleuthProperties;
 
 @Slf4j
 public class SleuthSpanConsumerInterceptor implements ConsumerInterceptor {
