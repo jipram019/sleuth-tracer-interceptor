@@ -16,48 +16,43 @@
 
 package com.tracing.sleuth.tracer.sample;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tracing.sleuth.tracer.kafka.producer.KafkaProducer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.common.internals.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import zipkin.server.EnableZipkinServer;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 
 /**
  * @author Aji Pramono
  */
-@EnableZipkinServer
 @SpringBootApplication
 public class Application {
 
   public static void main(String[] args) {
     ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class);
     KafkaProducer kafkaProducer = applicationContext.getBean(KafkaProducer.class);
-    Model model = Model.builder().name("5").build();
+    Model model = Model.builder().name("AJI4").build();
     kafkaProducer.send("trace.local.topic",null,model,null,1234567L);
+  }
+
+  @Bean
+  public AlwaysSampler defaultSampler(){
+    return new AlwaysSampler();
   }
 
   @Slf4j
@@ -82,6 +77,7 @@ public class Application {
     }
 
   }
+
 
   @Data
   @Builder
