@@ -38,12 +38,12 @@ public class KafkaProducer implements InitializingBean, ApplicationContextAware 
         this.applicationContext = applicationContext;
     }
 
-    public ListenableFuture<SendResult<String,String>> send(String topic, Object message, Integer partition, String key, Long timestamp){
+    public ListenableFuture<SendResult<String,String>> send(String topic, Integer partition, Object value, String key, Long timestamp){
         ProducerEvent event = ProducerEvent.builder()
                 .key(key)
                 .partition(partition)
                 .topic(topic)
-                .value(message)
+                .value(value)
                 .timestamp(timestamp)
                 .build();
 

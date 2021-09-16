@@ -10,9 +10,10 @@ import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.cloud.sleuth.autoconfig.SleuthProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 
 @Configuration
-@ConditionalOnClass(Tracer.class)
+@ConditionalOnClass({ObjectMapper.class, KafkaTemplate.class, Tracer.class})
 @AutoConfigureAfter(KafkaConfig.class)
 public class SleuthConfig {
     @Bean

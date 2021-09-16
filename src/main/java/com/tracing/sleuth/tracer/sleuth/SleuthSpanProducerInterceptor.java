@@ -8,7 +8,6 @@ import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.core.Ordered;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 

@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.tracing.sleuth.tracer.config.KafkaConfig,\
+com.tracing.sleuth.tracer.config.InterceptorConfig,\
+com.tracing.sleuth.tracer.config.SleuthConfig

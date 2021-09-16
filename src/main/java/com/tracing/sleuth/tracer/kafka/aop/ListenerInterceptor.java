@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -31,7 +30,6 @@ public class ListenerInterceptor<unchecked> implements MethodInterceptor, Initia
         this.objectMapper = objectMapper;
     }
 
-    @Nullable
     @Override
     public Object invoke(@javax.annotation.Nonnull MethodInvocation methodInvocation) throws Throwable {
         if(isKafkaListener(methodInvocation) && isConsumerRecordArguments(methodInvocation)){

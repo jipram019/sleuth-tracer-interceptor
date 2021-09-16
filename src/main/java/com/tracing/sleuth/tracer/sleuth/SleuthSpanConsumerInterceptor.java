@@ -51,16 +51,16 @@ public class SleuthSpanConsumerInterceptor implements ConsumerInterceptor {
             if(span != null && !span.isEmpty()){
                 if(sleuthProperties.isSupportsJoin()){
                     SleuthHelper.joinSpan(tracer, span);
-                    log.debug("Join trace span {}", span);
+                    log.info("Join trace span {}", span);
                 } else{
                     SleuthHelper.continueSpan(tracer, span);
-                    log.debug("Continue trace span {}", span);
+                    log.info("Continue trace span {}", span);
                 }
             } else{
                 String name = "kafka:consumer" + ":" + event.getTopic();
                 tracer.close(tracer.getCurrentSpan());
                 tracer.createSpan(name);
-                log.debug("Sleuth span is not available, create new one");
+                log.info("Sleuth span is not available, create new one");
             }
         } catch (Throwable e) {
            log.error("Failed to continue span", e);
