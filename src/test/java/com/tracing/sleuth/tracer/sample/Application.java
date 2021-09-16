@@ -46,12 +46,12 @@ public class Application {
   public static void main(String[] args) {
     ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class);
     KafkaProducer kafkaProducer = applicationContext.getBean(KafkaProducer.class);
-    Model model = Model.builder().name("AJI4").build();
+    Model model = Model.builder().name("11").build();
     kafkaProducer.send("trace.local.topic",null,model,null,1234567L);
   }
 
   @Bean
-  public AlwaysSampler defaultSampler(){
+  public AlwaysSampler alwaysSampler(){
     return new AlwaysSampler();
   }
 
